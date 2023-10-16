@@ -4,26 +4,29 @@ import React from 'react';
 
 class InnerComponent extends React.Component
 {
-  render()
+  constructor()
   {
-    return <div>Inner component is here</div>
+    super()
   }
 
-  componentDidMount()
+  render()
   {
-    console.log("####Mounting InnerComponent####")
+    return <div>This is inner component</div>
   }
 
   componentWillUnmount()
   {
-    console.log("****Unmounting InnerComponent****")
+    console.log("Inside componentWillUnmount")
   }
 
 }
 
 class App extends React.Component
 {
-  state = {counter:0, innerComponent:<InnerComponent/>}
+  state = {
+    counter:0,
+    innerComponent: <InnerComponent/>
+  }
   constructor(props)
   {
     super(props)
@@ -46,15 +49,9 @@ class App extends React.Component
   {
     //updating state on function call
     this.setState({counter:this.state.counter+1})
-    if(this.state.counter % 2 == 0)
-    {
-      this.setState({innerComponent:<InnerComponent/>})
-    }
-    else
-    {
-      this.setState({innerComponent:<div>Unmounted</div>})
-    }
-    
+
+    this.setState({innerComponent: <div>Component is unmounted</div>})
+
   }
 
   // Overridden render function
@@ -68,7 +65,7 @@ class App extends React.Component
           <br/>
           Counter:{this.state.counter}
           <br/>
-          <div>{this.state.innerComponent}</div>
+          {this.state.innerComponent}
         </div>
     )
   }
