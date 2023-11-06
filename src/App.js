@@ -2,164 +2,58 @@ import './App.css';
 import React from 'react';
 
 // feature branch code
-class AppInner extends React.Component
+
+//child component
+class InnerComponent extends React.Component
 {
-  sendData = () =>
+  constructor(props)
   {
-    this.props.parentCallBack(document.getElementById("inputBox").value)
+    super(props)
   }
 
   render()
   {
-    return (
-      <div>
-        <input type='text' id='inputBox' placeholder='I am Child'></input>
-        <button onClick={this.sendData}>Click to send data</button>
-      </div>
-    );
-  }
-}
-
-class App extends React.Component
-{
-  state = {message:"Hello, I am parent"}
-
-  getDataFromChild = (childData) =>
-  {
-    console.log("Received Data from Child now: "+childData)
-    this.setState({message: childData})
-  }
-
-  render()
-  {
-    console.log(this.state.message)
-    return (
-    <div>
-      <AppInner parentCallBack = {this.getDataFromChild}/>
-      <br/>
-      <div>{this.state.message}</div>
+    const style = {color:this.props.color}
+    return <div>
+      Child says:
+      <span style={style}>{this.props.name}</span>
     </div>
-    );
+  }
+
+  componentWillUnmount()
+  {
+    console.log("Inside componentWillUnmount")
   }
 }
 
-//Passing Data from Parent to child
-  // class AppInner extends React.Component
-  // {
-  //   constructor(props)
-  //   {
-  //     super(props)
-  //   }
+//parent component
+class App extends React.Component
+{ 
+  state = {childColor:"black", name:"John"}
 
-  //   render()
-  //   {
-  //     const style = {color:this.props.color}
-  //     return <span style={style}>{this.props.name}</span>
-  //   }
+  changeColor = () =>
+  {
+    const colorText = document.getElementById("colorText").value
+    this.setState({color:colorText})
+  }
 
-  // }
+  changeName = () =>
+  {
+    const nameText = document.getElementById("nameText").value
+    this.setState({name:nameText})
+  }
 
-  // class App extends React.Component
-  // {
-  //   state = {childColor: "green", name: "John"}
 
-  //   changeColor = () =>
-  //   {
-  //     const colorName = document.getElementById("colorBox").value
-  //     this.setState({childColor:colorName})
-  //   }
-
-  //   changeName = () =>
-  //   {
-  //     const name = document.getElementById("nameBox").value
-  //     this.setState({name:name})
-  //   }
-
-  //   render()
-  //   {
-  //     return (
-  //       <div>
-  //         Color <input type='text' onChange={this.changeColor} id="colorBox"/>
-  //         <br/>
-  //         Name <input type="text" onChange={this.changeName} id="nameBox"/>
-  //         <AppInner color={this.state.childColor} name={this.state.name}/>
-  //       </div>
-  //     );
-  //   }
-  // }
-//Passing Data from Parent to child
-
-// class InnerComponent extends React.Component
-// {
-//   constructor()
-//   {
-//     super()
-//   }
-
-//   render()
-//   {
-//     return <div>This is inner component</div>
-//   }
-
-//   componentWillUnmount()
-//   {
-//     console.log("Inside componentWillUnmount")
-//   }
-
-// }
-
-// class App extends React.Component
-// {
-//   state = {todo: []}
-
-//   constructor(props)
-//   {
-//     super(props)
-//     this.handleClick = this.handleClick.bind(this)
-//   }
-  
-//   handleClick(event)
-//   {
-//     event.preventDefault()
-//     //console.log("handleClick is clicked")
-//     let newTodo = document.getElementById("addTodo").value
-//     let newTodoObject = {
-//       id: new Date().getTime(),
-//       text: newTodo,
-//     }
-//     //console.log("Text readed: "+newTodo)
-//     // console.log(newTodoObject)
-//     // //console.log(this.state)
-//     //this.setState({counter:this.state.counter+1})
-//     this.state.todo.push(newTodoObject)
-//     this.setState({todo:this.state.todo})
-//     console.log(this.state)
-//     document.getElementById("addTodo").value = ""
-//     this.state.todo.map((tempTodo) =>{
-//       return ("ID: "+tempTodo.id+", Text: "+tempTodo.text)
-//     })
-//     //alert("clicked")
-//   }
-
-  
-//   render()
-//   {
-//     return <div>
-//       <h1>ToDo list</h1>
-//       <form onSubmit={this.handleClick}>
-//         <input type="text" id='addTodo'/>
-//         <button type='submit'>Add To-do</button>
-//       </form>
-//       <div>
-//         {this.state.todo.map((tempTodo) =>
-//         {
-//           return <div>{tempTodo.text}</div>
-//         })
-//         }
-//       </div>
-//     </div>
-//   }
-
+  render()
+  {
+    return <div>
+      Color <input type='Text' placeholder='Enter color here' onChange={this.changeColor} id="colorText"></input>
+      <br/>
+      Name <input type='Text' placeholder='Enter name here' onChange={this.changeName} id="nameText"></input>
+      <InnerComponent color={this.state.color} name={this.state.name}/>
+    </div>
+  }
+}
 
   // state = {
   //   counter:0,
