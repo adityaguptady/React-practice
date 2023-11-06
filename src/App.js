@@ -1,6 +1,92 @@
-//import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
+
+class AppInner extends React.Component
+{
+  sendData = () =>
+  {
+    this.props.parentCallBack(document.getElementById("inputBox").value)
+  }
+
+  render()
+  {
+    return (
+      <div>
+        <input type='text' id='inputBox' placeholder='I am Child'></input>
+        <button onClick={this.sendData}>Click to send data</button>
+      </div>
+    );
+  }
+}
+
+class App extends React.Component
+{
+  state = {message:"Hello, I am parent"}
+
+  getDataFromChild = (childData) =>
+  {
+    console.log("Received Data from Child now: "+childData)
+    this.setState({message: childData})
+  }
+
+  render()
+  {
+    console.log(this.state.message)
+    return (
+    <div>
+      <AppInner parentCallBack = {this.getDataFromChild}/>
+      <br/>
+      <div>{this.state.message}</div>
+    </div>
+    );
+  }
+}
+
+//Passing Data from Parent to child
+  // class AppInner extends React.Component
+  // {
+  //   constructor(props)
+  //   {
+  //     super(props)
+  //   }
+
+  //   render()
+  //   {
+  //     const style = {color:this.props.color}
+  //     return <span style={style}>{this.props.name}</span>
+  //   }
+
+  // }
+
+  // class App extends React.Component
+  // {
+  //   state = {childColor: "green", name: "John"}
+
+  //   changeColor = () =>
+  //   {
+  //     const colorName = document.getElementById("colorBox").value
+  //     this.setState({childColor:colorName})
+  //   }
+
+  //   changeName = () =>
+  //   {
+  //     const name = document.getElementById("nameBox").value
+  //     this.setState({name:name})
+  //   }
+
+  //   render()
+  //   {
+  //     return (
+  //       <div>
+  //         Color <input type='text' onChange={this.changeColor} id="colorBox"/>
+  //         <br/>
+  //         Name <input type="text" onChange={this.changeName} id="nameBox"/>
+  //         <AppInner color={this.state.childColor} name={this.state.name}/>
+  //       </div>
+  //     );
+  //   }
+  // }
+//Passing Data from Parent to child
 
 // class InnerComponent extends React.Component
 // {
@@ -159,48 +245,50 @@ import React, { useState } from 'react';
 //   );
 // }
 
-function handleClick(event)
-{
-  event.preventDefault()
-  //console.log("handleClick is clicked")
-  let newTodo = document.getElementById("addTodo").value
-  let newTodoObject = {
-    id: new Date().getTime(),
-    text: newTodo,
-  }
-  //console.log("Text readed: "+newTodo)
-  // console.log(newTodoObject)
-  // //console.log(this.state)
-  //this.setState({counter:this.state.counter+1})
-  this.state.todo.push(newTodoObject)
-  this.setState({todo:this.state.todo})
-  console.log(this.state)
-  document.getElementById("addTodo").value = ""
-  this.state.todo.map((tempTodo) =>{
-    return ("ID: "+tempTodo.id+", Text: "+tempTodo.text)
-  })
-  //alert("clicked")
-}
+// function handleClick(event)
+// {
+//   event.preventDefault()
+//   //console.log("handleClick is clicked")
+//   let newTodo = document.getElementById("addTodo").value
+//   let newTodoObject = {
+//     id: new Date().getTime(),
+//     text: newTodo,
+//   }
+//   //console.log("Text readed: "+newTodo)
+//   // console.log(newTodoObject)
+//   // //console.log(this.state)
+//   //this.setState({counter:this.state.counter+1})
+//   this.state.todo.push(newTodoObject)
+//   this.setTodo({todo:this.state.todo})
+//   console.log(this.state)
+//   document.getElementById("addTodo").value = ""
+//   this.state.todo.map((tempTodo) =>{
+//     return ("ID: "+tempTodo.id+", Text: "+tempTodo.text)
+//   })
+//   //alert("clicked")
+// }
 
-function App(props)
-{
-  const [todos, steTodo] = useState([])
-  return (
-    <div>
-       <h1>ToDo list</h1>
-       <form onSubmit={this.handleClick}>
-         <input type="text" id='addTodo'/>
-         <button type='submit'>Add To-do</button>
-       </form>
-       <div>
-         {this.state.todo.map((tempTodo) =>
-        {
-          return <div>{tempTodo.text}</div>
-        })
-        }
-      </div>
-    </div>
-  );
-}
+// const [todos, setTodo] = useState([])
+
+// function App(props)
+// {
+  
+//   return (
+//     <div>
+//        <h1>ToDo list</h1>
+//        <form onSubmit={this.handleClick}>
+//          <input type="text" id='addTodo'/>
+//          <button type='submit'>Add To-do</button>
+//        </form>
+//        <div>
+//          {this.state.todo.map((tempTodo) =>
+//         {
+//           return <div>{tempTodo.text}</div>
+//         })
+//         }
+//       </div>
+//     </div>
+//   );
+// }
 
 export default App;
