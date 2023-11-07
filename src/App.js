@@ -3,7 +3,7 @@ import React from 'react';
 
 // feature branch code
 
-//child component
+//Child Component
 class InnerComponent extends React.Component
 {
   constructor(props)
@@ -11,49 +11,97 @@ class InnerComponent extends React.Component
     super(props)
   }
 
-  render()
+  sendData=()=>
   {
-    const style = {color:this.props.color}
-    return <div>
-      Child says:
-      <span style={style}>{this.props.name}</span>
-    </div>
+    const text = document.getElementById("textMessage").value
+    console.log("Data to send to parent is: "+text)
+    this.props.parentCallBack(text)
   }
 
-  componentWillUnmount()
+  render()
   {
-    console.log("Inside componentWillUnmount")
+    return (
+      <div>
+        <input type='Text' placeholder='Enter message for parent' id="textMessage"/>
+        <button onClick={()=>this.sendData()}>Send to parent</button>
+      </div>
+    )
   }
 }
 
 //parent component
 class App extends React.Component
-{ 
-  state = {childColor:"black", name:"John"}
+{
+  state = {message:"This is from Parent"}
 
-  changeColor = () =>
+  parentCallbackFunction = (text) =>
   {
-    const colorText = document.getElementById("colorText").value
-    this.setState({color:colorText})
+    console.log("Data in parent: "+text)
+    this.setState({message: text})
   }
-
-  changeName = () =>
-  {
-    const nameText = document.getElementById("nameText").value
-    this.setState({name:nameText})
-  }
-
 
   render()
   {
-    return <div>
-      Color <input type='Text' placeholder='Enter color here' onChange={this.changeColor} id="colorText"></input>
-      <br/>
-      Name <input type='Text' placeholder='Enter name here' onChange={this.changeName} id="nameText"></input>
-      <InnerComponent color={this.state.color} name={this.state.name}/>
+    return (
+    <div>
+      <InnerComponent parentCallBack={this.parentCallbackFunction}/>
+      <div>Data From Child:{this.state.message}</div>
     </div>
+    )
   }
 }
+
+//child component
+// class InnerComponent extends React.Component
+// {
+//   constructor(props)
+//   {
+//     super(props)
+//   }
+
+//   render()
+//   {
+//     const style = {color:this.props.color}
+//     return <div>
+//       Child says:
+//       <span style={style}>{this.props.name}</span>
+//     </div>
+//   }
+
+//   componentWillUnmount()
+//   {
+//     console.log("Inside componentWillUnmount")
+//   }
+// }
+
+//parent component
+// class App extends React.Component
+// { 
+//   state = {childColor:"black", name:"John"}
+
+//   changeColor = () =>
+//   {
+//     const colorText = document.getElementById("colorText").value
+//     this.setState({color:colorText})
+//   }
+
+//   changeName = () =>
+//   {
+//     const nameText = document.getElementById("nameText").value
+//     this.setState({name:nameText})
+//   }
+
+
+//   render()
+//   {
+//     return <div>
+//       Color <input type='Text' placeholder='Enter color here' onChange={this.changeColor} id="colorText"></input>
+//       <br/>
+//       Name <input type='Text' placeholder='Enter name here' onChange={this.changeName} id="nameText"></input>
+//       <InnerComponent color={this.state.color} name={this.state.name}/>
+//     </div>
+//   }
+// }
 
   // state = {
   //   counter:0,
