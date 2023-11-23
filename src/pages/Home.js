@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import {useState, useEffect, createContext, useContext } from 'react';
 import './Home.css'
+
+const UserContext = createContext()
 
 function Home()
 {
-    const [student, setStudent] = useState(
+    const [user, setUser] = useState("Aditya the teacher");
+    var [count, setCount] = useState(0);
+    var [student, setStudent] = useState(
         {
             name:"Aditya Gupta",
             rollNumber: 111,
@@ -20,7 +24,14 @@ function Home()
                 return { ...student, name: "Ayush"}
             });
         console.log(student)
+        setCount(1)
     }    
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //       console.log("This is triggerred now!!!")
+    //     }, 4000);
+    //   }, count);
 
     // const styleObj = {
     //     color: "black",
@@ -35,6 +46,49 @@ function Home()
             <div>This is my Contact: {student.contact}</div>
             <div>This is my Address: {student.address}</div>
             <button onClick={()=>updateData()}>Update Data</button>
+            <UserContext.Provider value={user}>
+                <h1>{`Hello ${user}!`}</h1>
+                <Component2 user={user} />
+            </UserContext.Provider>
         </div>)
 }
+
+function Component2() {
+    return (
+      <>
+        <h1>Component 2</h1>
+        <Component3/>
+      </>
+    );
+  }
+  
+  function Component3() {
+    return (
+      <>
+        <h1>Component 3</h1>
+        <Component4 />
+      </>
+    );
+  }
+  function Component4() {
+    return (
+      <>
+        <h1>Component 4</h1>
+        <Component5 />
+      </>
+    );
+  }
+  
+  function Component5() 
+  {
+    const userRef = useContext(UserContext)
+    return (
+      <>
+        <h1>Component 5</h1>
+        <h2>{`Hello ${userRef} again!`}</h2>
+      </>
+    );
+  }
+  
+
 export default Home;
