@@ -1,11 +1,33 @@
 import {useState, useEffect, createContext, useContext, useRef } from 'react';
+import { useReducer } from 'react';
 import './Home.css'
 import Component2 from './Component2';
 
 export const UserContext = createContext()
 
-function Home()
-{
+
+//useRef problem number 3
+  function Home()
+  {
+    const [inputValue, setInputValue] = useState("");
+    const previousInputValue = useRef("");
+    useEffect(() => {
+      previousInputValue.current = inputValue;
+    }, [inputValue]);
+    return (
+      <>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <h2>Current Value: {inputValue}</h2>
+        <h2>Previous Value: {previousInputValue.current}</h2>
+      </>
+    );
+  }
+  export default Home;
+
     // const [user, setUser] = useState("Aditya the teacher");
     // var [count, setCount] = useState(0);
     // var [student, setStudent] = useState(
@@ -51,24 +73,16 @@ function Home()
     // student2.name = "Ayush"
     // console.log(Student.address)
 
+  //useRef problem number 1
+    // const [inputValue, setInputValue] = useState("");
+    // const count = useRef(0);
+    // //let count = 0;
+    // useEffect(() => {
+    //   count.current = count.current + 1;
+    //   console.log(count.current)
+    // });
 
-    const [inputValue, setInputValue] = useState("");
-    const count = useRef(0);
-    //let count = 0;
-    useEffect(() => {
-      count.current = count.current + 1;
-      console.log(count.current)
-    });
-    return (
-      <>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <h1>Render Count: {count.current}</h1>
-      </>
-    );
+    
 
 
     // useEffect(() => {
@@ -92,10 +106,6 @@ function Home()
     //         <button onClick={()=>updateData()}>Update Data</button>
     //         <UserContext.Provider value={user}>
     //             <h1>{`Hello ${user}!`}</h1>
-    //             <Component2/>
+    //             <Component5/>
     //         </UserContext.Provider> 
     //     </div>)
-}
-
-
-export default Home;
