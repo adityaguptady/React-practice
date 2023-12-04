@@ -1,182 +1,258 @@
-import { useCallback, useMemo, useReducer, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import './Home.css'
 import Todos from "../pages/Todos";
 import { Button, Navbar, NavbarBrand, Table } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import useFetch from '../useFetch';
 
-
-//Use Callback
 const Home = () =>
 {
-  const [count, setCount] = useState(0);
-  const [todos, setTodos] = useState(["Todo 1","Todo 2"]);
+  const [data] = useFetch();
 
-  const increment = () =>
+
+  // var myArray = ["A", "B", "C", "D", "E"]
+  // var mySecondArray = []
+
+  const vehical = ["Creta", "Maruti", "Venue", "Thar"]
+
+  const creta = vehical[0]
+  //console.log(creta)
+
+  const [, truck, car, ] = vehical
+  console.log(car)
+  console.log(truck)
+  //console.log(a)
+  //console.log(c)
+
+  function calculation(variable1, variable2)
   {
-    setCount((countTemp)=> countTemp+1)
+    const add = variable1 + variable2
+    const sub = variable1 - variable2
+    const multiplication = variable1 * variable2
+    const division = variable2 / variable1
+    return [add, sub, multiplication, division]
   }
 
-  // const addTodo = useCallback(() =>
-  // {
-  //   setTodos((tempTodo) => [...tempTodo, "Todo 3"]);
-  // }, [todos])
+  const [add, sub, multiplication, division] = calculation(5, 8)
 
-  const addTodo = () =>
-  {
-    setTodos((tempTodo) => [...tempTodo, "Todo 3"]);
+  console.log("Addition: "+add)
+  console.log("Subtraction: "+sub)
+  console.log("multiplication: "+multiplication)
+  console.log("Division: "+division)
+
+  const myObject = {
+    creta: "123",
+    maruti: "456",
+    venue: "789",
+    year: 2021,
+    color: "black",
+    variation: 
+            {
+              data1: "data1",
+              data2: "data2",
+              data3: "data3"
+            },
   }
 
-  const expensiveCalculation = (num) => 
+  function printObject({venue, year, variation: {data2}})
   {
-    console.log("Calculating...");
-    for (let i = 0; i < 1000000000; i++) 
-    {
-      num += 1;
-    }
-    return num;
-   };
+    //console.log("Details: "+obj.creta+", "+obj.maruti+", "+obj.venue+", "+obj.year+", "+obj.color)
+    //console.log("Details: "+creta+", "+maruti+", "+venue+", "+year+", "+color)
+    console.log("Details: "+venue+", "+year+", "+data2)
+  }
 
-   const calculation = useMemo(()=>expensiveCalculation(count), [count]) ;
-
-
-  return (
+  printObject(myObject)
+  
+  
+//   const [data, setData] = useState(null);
+//   useEffect(() => {
+//     fetch("https://jsonplaceholder.typicode.com/todos")
+//       .then((res) => res.json())
+//       .then((data) => setData(data));
+//  }, []);
+   return (
     <>
-      <h2>My Todos</h2>
-        {todos.map((todo, index) => {
-          return <p key={index}>{todo}</p>;
+      {data &&
+        data.map((item) => {
+          return <p key={item.id}>{item.title}</p>;
         })}
-      {/* <Todos todos={todos} addTodo={addTodo} /> */}
-      <button onClick={addTodo}>Add Todo</button>
-      <hr />
-      <div>
-        Count: {count}
-        <button onClick={increment}>+</button>
-        <h2>Expensive Calculation</h2>
-       {calculation}
-       {/* <Button color="danger">Danger!</Button> */}
-       <Button color="primary">
-          primary
-        </Button>
-
-        <Button color="danger">Danger!</Button>
-
-        <Navbar
-          className="my-2"
-          color="dark"
-          dark
-        >
-          <NavbarBrand href="/">
-            <img
-              alt="logo"
-              src="/logo-white.svg"
-              style={{
-                height: 40,
-                width: 40
-              }}
-            />
-          </NavbarBrand>
-        </Navbar>
-  
-        <Navbar
-          className="my-2"
-          color="secondary"
-          dark
-        >
-          <NavbarBrand href="/">
-            Reactstrap
-          </NavbarBrand>
-        </Navbar>
-  
-        <Navbar
-          className="my-2"
-          color="dark"
-          dark
-        >
-          <NavbarBrand href="/">
-            <img
-              alt="logo"
-              src="/logo-white.svg"
-              style={{
-                height: 40,
-                width: 40
-              }}
-            />
-            Reactstrap
-          </NavbarBrand>
-        </Navbar>
-
-        <Table
-        >
-          <thead>
-            <tr>
-              <th>
-                #
-              </th>
-              <th>
-                First Name
-              </th>
-              <th>
-                Last Name
-              </th>
-              <th>
-                Username
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">
-                1
-              </th>
-              <td>
-                Mark
-              </td>
-              <td>
-                Otto
-              </td>
-              <td>
-                @mdo
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">
-                2
-              </th>
-              <td>
-                Jacob
-              </td>
-              <td>
-                Thornton
-              </td>
-              <td>
-                @fat
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">
-                3
-              </th>
-              <td>
-                Larry
-              </td>
-              <td>
-                the Bird
-              </td>
-              <td>
-                @twitter
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-
-      </div>
     </>
   );
+
+}
+
+//Use Callback
+// const Home = () =>
+// {
+//   const [count, setCount] = useState(0);
+//   const [todos, setTodos] = useState(["Todo 1","Todo 2"]);
+
+//   const increment = () =>
+//   {
+//     setCount((countTemp)=> countTemp+1)
+//   }
+
+//   // const addTodo = useCallback(() =>
+//   // {
+//   //   setTodos((tempTodo) => [...tempTodo, "Todo 3"]);
+//   // }, [todos])
+
+//   const addTodo = () =>
+//   {
+//     setTodos((tempTodo) => [...tempTodo, "Todo 3"]);
+//   }
+
+//   const expensiveCalculation = (num) => 
+//   {
+//     console.log("Calculating...");
+//     for (let i = 0; i < 1000000000; i++) 
+//     {
+//       num += 1;
+//     }
+//     return num;
+//    };
+
+//    const calculation = useMemo(()=>expensiveCalculation(count), [count]) ;
+
+
+//   return (
+//     <>
+//       <h2>My Todos</h2>
+//         {todos.map((todo, index) => {
+//           return <p key={index}>{todo}</p>;
+//         })}
+//       {/* <Todos todos={todos} addTodo={addTodo} /> */}
+//       <button onClick={addTodo}>Add Todo</button>
+//       <hr />
+//       <div>
+//         Count: {count}
+//         <button onClick={increment}>+</button>
+//         <h2>Expensive Calculation</h2>
+//        {calculation}
+//        {/* <Button color="danger">Danger!</Button> */}
+//        <Button color="primary">
+//           primary
+//         </Button>
+
+//         <Button color="danger">Danger!</Button>
+
+//         <Navbar
+//           className="my-2"
+//           color="dark"
+//           dark
+//         >
+//           <NavbarBrand href="/">
+//             <img
+//               alt="logo"
+//               src="/logo-white.svg"
+//               style={{
+//                 height: 40,
+//                 width: 40
+//               }}
+//             />
+//           </NavbarBrand>
+//         </Navbar>
+  
+//         <Navbar
+//           className="my-2"
+//           color="secondary"
+//           dark
+//         >
+//           <NavbarBrand href="/">
+//             Reactstrap
+//           </NavbarBrand>
+//         </Navbar>
+  
+//         <Navbar
+//           className="my-2"
+//           color="dark"
+//           dark
+//         >
+//           <NavbarBrand href="/">
+//             <img
+//               alt="logo"
+//               src="/logo-white.svg"
+//               style={{
+//                 height: 40,
+//                 width: 40
+//               }}
+//             />
+//             Reactstrap
+//           </NavbarBrand>
+//         </Navbar>
+
+//         <Table
+//         >
+//           <thead>
+//             <tr>
+//               <th>
+//                 #
+//               </th>
+//               <th>
+//                 First Name
+//               </th>
+//               <th>
+//                 Last Name
+//               </th>
+//               <th>
+//                 Username
+//               </th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <th scope="row">
+//                 1
+//               </th>
+//               <td>
+//                 Mark
+//               </td>
+//               <td>
+//                 Otto
+//               </td>
+//               <td>
+//                 @mdo
+//               </td>
+//             </tr>
+//             <tr>
+//               <th scope="row">
+//                 2
+//               </th>
+//               <td>
+//                 Jacob
+//               </td>
+//               <td>
+//                 Thornton
+//               </td>
+//               <td>
+//                 @fat
+//               </td>
+//             </tr>
+//             <tr>
+//               <th scope="row">
+//                 3
+//               </th>
+//               <td>
+//                 Larry
+//               </td>
+//               <td>
+//                 the Bird
+//               </td>
+//               <td>
+//                 @twitter
+//               </td>
+//             </tr>
+//           </tbody>
+//         </Table>
+
+//       </div>
+//     </>
+//   );
  
   
    
 
-}
+// }
 
 //Memoization
 // const Home = () =>
